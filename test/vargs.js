@@ -2,10 +2,6 @@ var should = require('should'),
     vargs = require('../index.js')
 
 describe('vargs', function () {
-    it('should be a function', function () {
-        vargs.should.be.type('function')
-    })
-
     it('should add non-enumerable vargs property to all the functions', function () {
         function foo() {}
         foo.should.have.property('vargs')
@@ -46,5 +42,25 @@ describe('vargs', function () {
             arguments.should.eql([1, 2, 3, cb])
             ;[a, b, c].should.eql([1, 2, 3])
         }.vargs(1, 2, 3, cb))
+    })
+
+    it('exported object should be a function', function () {
+        vargs.should.be.type('function')
+    })
+
+    it('exported function should do the same thing as .vargs property', function () {
+        function foo(a, b, c) {
+            return arguments
+        }
+        foo = foo.vargs
+
+        function bar(a, b, c) {
+            return arguments
+        }
+        bar = vargs(bar)
+
+        var cb = function () {}
+
+        foo(1, cb).should.eql(bar(1, cb))
     })
 })
