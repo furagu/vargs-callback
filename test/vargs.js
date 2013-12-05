@@ -13,5 +13,20 @@ describe('vargs', function () {
         Object.keys(foo).should.not.include('vargs')
     })
 
-    it('should inflate arguments with undefined values if the last given argument is a function')
+    it('should make callaback the last argument', function () {
+        function foo(a, b, c) {
+            should.strictEqual(a ? 1 : undefined, a)
+            should.strictEqual(b ? 2 : undefined, b)
+            c.should.be.type('function')
+        }
+        foo = foo.vargs
+
+        foo(function () {})
+        foo(1, function () {})
+        foo(1, 2, function () {})
+    })
+
+    it('should not do anything if the last argument is not a function')
+
+    it('should not do anything if the number of arguments is greater than stated in function definition')
 })
