@@ -2,7 +2,7 @@
  
 ## The Problem
  
-Dealing with variable function arguments makes you write some uncool boilerplace of this sort:
+Dealing with variable function arguments makes you write some uncool boilerplate of this sort:
  
 ```js
 function openTheDoor(door, options, callback) {
@@ -16,7 +16,9 @@ function openTheDoor(door, options, callback) {
 }
 ```
 
-## Bad solutions
+This juggling is actually not what you want your function to do, this is just a workaround of JavaScript function arguments implementation. There should be a way to do variable arguments clearly.
+
+## Bad Solutions
 
 There are some libraries providing the solution by processing arguments object. It ends up with another boilerplate like this:
  
@@ -30,7 +32,7 @@ function openTheDoor() {
 }
 ```
  
-Or even with little "arguments definition language":
+Or with little "arguments definition language":
  
 ```js
 function openTheDoor() {
@@ -41,7 +43,7 @@ function openTheDoor() {
 }
 ```
 
-Some do weird call-twice-to-set-arguments magic which forces you to cast a spell involving ```this``` and write your actuial code inside a callback:
+Some do weird call-twice-to-set-parameters magic which forces you to cast a spell involving ```this``` and write your actuial code inside a callback:
 
 ```js
 function openTheDoor(door, options, callback) {
@@ -54,7 +56,8 @@ function openTheDoor(door, options, callback) {
 }
 ```
 
+The common problem of all that solutions is that you basically replace one boilerplate with another. Yes, you can not only load arguments, but also check types, you can even set default values. But still this is a boilerplate cluttering your code.
 
+## Good Solution
 
-
-
+Every problem has a root cause. The root cause of variable arguments problem is the callback.
