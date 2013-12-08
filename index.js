@@ -15,5 +15,4 @@ Object.defineProperty(Function.prototype, 'vargs', {
     configurable: true
 })
 
-
 module.exports = vargs
