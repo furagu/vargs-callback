@@ -1,9 +1,11 @@
 # vargs-callback
- 
+
+[Skip to usage](#Usage)
+
 ## The Problem
- 
+
 Dealing with variable function arguments makes you write some uncool boilerplate of this sort:
- 
+
 ```js
 function openTheDoor(door, options, callback) {
     if (typeof options === 'function') {
@@ -21,19 +23,19 @@ This juggling is actually not what you want your function to do, this is just a 
 ## Bad Solutions
 
 There are some libraries providing the solution by processing arguments object. It ends up with another boilerplate like this:
- 
+
 ```js
 function openTheDoor() {
     var args = somehowParse(arguments)
     // actual function code using args object
-    // note there are no argument names 
-    if (args.first.isOpen) return 
+    // note there are no argument names
+    if (args.first.isOpen) return
     // ...
 }
 ```
- 
+
 Or with little "arguments definition language":
- 
+
 ```js
 function openTheDoor() {
     var args = parseArgs(['door|obj', 'options||obj', 'callback||func'], arguments)
@@ -58,7 +60,7 @@ function openTheDoor(door, options, callback) {
 
 The common problem of all that solutions is that you basically replace one boilerplate with another. Yes, you can not only load arguments, but also check types, you can even set default values. But still this is a boilerplate cluttering your code.
 
-## The Solution
+## Good Solution
 
 Let's talk about functions.
 
@@ -70,6 +72,7 @@ Finally, there is the "Callback goes last" convention which simplifies asynchron
 
 Stated thus, the solution comes easily. The only thing needs to be done is _to move the callback to its place_, leaving missing parameters undefined. This is exactly what vargs-callback does.
 
+<a name="Usage" />
 ## Usage
 
 The library exports only one function and adds one non-enumerable property ```vargs``` to Function.prototype. Use it as follows.
@@ -81,6 +84,7 @@ var vargs = require('vargs-callback')
 
 function openTheDoor(door, options, callback) {
     // actual function code using parameters
+    // options will be undefined if only door and callback given
     if (door.isOpen) return
     // ...
 }
@@ -95,6 +99,7 @@ var vargs = require('vargs-callback')
 var doorOpener = {
  open: function (door, options, callback) {
         // actual function code using parameters
+        // options will be undefined if only door and callback given
         if (door.isOpen) return
         // ...
     }.vargs // Decorate anonymous function with accessor property. Note the absence of ()
