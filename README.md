@@ -18,11 +18,12 @@ function openTheDoor(door, options, callback) {
 }
 ```
 
-This juggling is actually not what you want your function to do, this is just a workaround of JavaScript function arguments implementation. There should be a way to do variable arguments clearly.
+This parameter juggling is not what you actually want your function to do, it's just a workaround of the JavaScript function arguments implementation.
+There should be a way to get rid of it.
 
 ## Bad Solutions
 
-There are some libraries providing the solution by processing arguments object. It ends up with another boilerplate like this:
+There are some libraries built to process the arguments object. It ends up with another boilerplate like this:
 
 ```js
 function openTheDoor() {
@@ -34,7 +35,7 @@ function openTheDoor() {
 }
 ```
 
-Or with little "arguments definition language":
+Some provide a little "arguments definition language":
 
 ```js
 function openTheDoor() {
@@ -45,12 +46,12 @@ function openTheDoor() {
 }
 ```
 
-Some do weird call-twice-to-set-parameters magic which forces you to cast a spell involving ```this``` and write your actuial code inside a callback:
+Some do weird call-twice-to-set-parameters magic forcing you to cast a spell involving ```this``` and write your code inside a callback:
 
 ```js
 function openTheDoor(door, options, callback) {
-    return magic(this, ['door|obj', 'options||obj', 'callback||func'], function () {
-        // actual function code using parameters
+    return magicArgs(this, ['door|obj', 'options||obj', 'callback||func'], function () {
+        // actual function code using declared parameters
         // note the callback around and the return statement at the beginning
         if (door.isOpen) return
         // ...
@@ -58,26 +59,26 @@ function openTheDoor(door, options, callback) {
 }
 ```
 
-The common problem of all that solutions is that you basically replace one boilerplate with another. Yes, you can not only load arguments, but also check types, you can even set default values. But still this is a boilerplate cluttering your code.
+A common problem of all these solutions is that you simply replace one boilerplate with another. You must still do some tricks before you can use the function parameters. And it clutters your code.
 
 ## Good Solution
 
 Let's talk about functions.
 
-First, a well-designed function should not have many parameters. Having more than three parameters often means function needs refactoring. One should split the code to several different funcitons, aggregate some separate parameters into one parameter object, so there are only small and concise functions left ([Refactoring: Improving the Design of Existing Code](http://www.amazon.com/Refactoring-Improving-Design-Existing-Code/dp/0201485672) by Martin Fowler is the book to read on the subject).
+First, a well-designed function should not have many parameters. Having more than three parameters often means function needs refactoring. You should consider splitting the function code to several different funcitons or aggregating some of parameters into one parameter object until only small and concise functions left ([Refactoring: Improving the Design of Existing Code](http://www.amazon.com/Refactoring-Improving-Design-Existing-Code/dp/0201485672) by Martin Fowler is the book to read on the subject).
 
-Second, there is a simple native way to deal with missing parameters. If there are less arguments than stated in the function parameter list, missing parameters take ```undefined``` value. One could do something like ```options = options || {}``` to handle such cases. It is natural, simple and easy to read.
+Second, there is a native JavaScript way to deal with missing parameters. If there are not enough arguments missing parameters are set to ```undefined``` and you can do something like ```options = options || {}``` to handle such cases. It is natural, it is simple and easy to read.
 
-Finally, there is the "Callback goes last" convention which simplifies asynchronous programming. This convention creates situations in which the callback takes place of one of the optional parameters. Callback taking the wrong place is the root cause of the variable arguments problem.
+Finally, there is the "Callback goes last" convention which simplifies asynchronous programming. This convention creates situations when the callback takes place of one of the optional parameters. Callback taking the wrong place is the root cause of the variable arguments problem.
 
-Stated thus, the solution comes easily. The only thing needs to be done is _to move the callback to its place_, leaving missing parameters undefined. This is exactly what vargs-callback does.
+Combining the above, the solution comes easily. The only thing needs to be done is _to move the callback to its place_, leaving missing parameters undefined. This is exactly what vargs-callback does.
 
 <a name="Usage" />
 ## Usage
 
-The library exports only one function and adds one non-enumerable property ```vargs``` to Function.prototype. Use it as follows.
+The library exports only one function which should be used as a decorator.
 
-Global or named functions:
+Function declarations:
 
 ```js
 var vargs = require('vargs-callback')
@@ -88,29 +89,26 @@ function openTheDoor(door, options, callback) {
     if (door.isOpen) return
     // ...
 }
-openTheDoor = vargs(openTheDoor) // Decorate named/global function
+openTheDoor = vargs(openTheDoor) // Decorate global function
 ```
 
-Object methods:
+Function expressions:
 
 ```js
 var vargs = require('vargs-callback')
 
-var doorOpener = {
- open: function (door, options, callback) {
-        // actual function code using parameters
-        // options will be undefined if only door and callback given
-        if (door.isOpen) return
-        // ...
-    }.vargs // Decorate anonymous function with accessor property. Note the absence of ()
-    //...
-}
+var openTheDoor = vargs(function (door, options, callback) { // Decorate function expression
+    // actual function code using parameters
+    // options will be undefined if only door and callback given
+    if (door.isOpen) return
+    // ...
+})
 ```
 
 ## The Rules
 
-Vargs decorator works on the original function call and does exactly the following:
+Vargs is triggered on the decorated function call and does the following:
 
-1.  If there are not enough arguments given and the last given argument is a function, insert ```undefined``` values into original arguments just before the last element to make it the same size as the original parameter list.
+1.  If there are not enough arguments given and the last given argument is a function, insert ```undefined``` values into arguments just before the last element to make arguments the same size as the declared function parameter list.
 2.  Call the original function with modified arguments.
 3.  Do not modify arguments if there are enough arguments or the last argument is not a function.
