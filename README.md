@@ -67,7 +67,7 @@ Let's talk about functions.
 
 First, a well-designed function should not have many parameters. Having more than three parameters often means function needs refactoring. You should consider splitting the function code to several different funcitons or aggregating some of parameters into one parameter object until only small and concise functions left ([Refactoring: Improving the Design of Existing Code](http://www.amazon.com/Refactoring-Improving-Design-Existing-Code/dp/0201485672) by Martin Fowler is the book to read on the subject).
 
-Second, there is a native JavaScript way to deal with missing parameters. If there are not enough arguments missing parameters are set to ```undefined``` and you can do something like ```options = options || {}``` to handle such cases. It is natural, it is simple and easy to read.
+Second, there is a native JavaScript way to deal with missing parameters. All missing parameters are set to ```undefined``` and you can do something like ```options = options || {}``` to handle such cases. It is natural, it is simple and easy to read.
 
 Finally, there is the "Callback goes last" convention which simplifies asynchronous programming. This convention creates situations when the callback takes place of one of the optional parameters. Callback taking the wrong place is the root cause of the variable arguments problem.
 
