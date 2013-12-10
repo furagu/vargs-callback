@@ -1,4 +1,4 @@
-# vargs-callback
+# vargs-callback [![Build Status](https://travis-ci.org/furagu/vargs-callback.png?branch=master)](https://travis-ci.org/furagu/vargs-callback)
 
 [Skip to usage](#Usage)
 
