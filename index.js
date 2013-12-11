@@ -1,8 +1,19 @@
 function vargs(fn) {
+    var slice = Array.prototype.slice,
+        paramsCount = fn.length
+
     return function () {
-        var args = Array.prototype.slice.apply(arguments)
-        if (args.length < fn.length && typeof args[args.length - 1] === 'function')
-            Array.prototype.splice.apply(args, [args.length - 1, 0].concat(Array(fn.length - args.length)))
+        var argsCount = arguments.length,
+            lastArg = arguments[argsCount - 1]
+
+        if (argsCount >= paramsCount || typeof lastArg !== 'function')
+            return fn.apply(this, arguments)
+
+        var args = slice.call(arguments, 0, argsCount - 1)
+        for (var i = paramsCount - argsCount; i; i -= 1)
+            args.push(undefined)
+        args.push(lastArg)
+
         return fn.apply(this, args)
     }
 }

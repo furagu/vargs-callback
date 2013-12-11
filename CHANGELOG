@@ -1,3 +1,7 @@
+0.2.3
+- Added inline vs vargs benchmark.
+- Improved speed of the arguments processing.
+
 0.2.0
 Backward incompatible change:
 - Removed Function.prototype.vargs property for the sake of clarity.
