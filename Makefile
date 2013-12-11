@@ -1,3 +1,5 @@
 test:
 	node_modules/.bin/mocha --reporter list
-.PHONY: test
+benchmark:
+	node benchmark/inline.js
+.PHONY: test benchmark
