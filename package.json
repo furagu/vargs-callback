@@ -1,6 +1,6 @@
 {
   "name": "vargs-callback",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Variable arguments and \"The last is the callback\" convention made without \"var args = somehowParse(arguments)\" surrogate.",
   "main": "index.js",
   "scripts": {
