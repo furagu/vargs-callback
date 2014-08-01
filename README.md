@@ -105,10 +105,26 @@ var openTheDoor = vargs(function (door, options, callback) { // Decorate functio
 })
 ```
 
+There is also __vargs.strict__ decorator which forces a callback presence. It checks if the last argument is a function and throws TypeError if it's not:
+
+```js
+var vargs = require('vargs-callback')
+
+var handleResponse = vargs.strict(function (config, response, callback) {
+    // function code
+})
+
+handleResponse('some', 'args') // TypeError: Callback is required
+```
+
+Note the __vargs.strict__ call.
+
+
 ## The Rules
 
 Vargs is triggered on the decorated function call and does the following:
 
-1.  If there are not enough arguments given and the last given argument is a function, insert ```undefined``` values into arguments just before the last element to make arguments the same size as the declared function parameter list.
-2.  Call the original function with modified arguments.
-3.  Do not modify arguments if there are enough arguments or the last argument is not a function.
+1.  If vargs.strict was used and the last argument is not a function, throw TypeError.
+2.  If there are not enough arguments given and the last given argument is a function, insert ```undefined``` values into arguments just before the last element to make arguments the same size as the declared function parameter list.
+3.  Call the original function with modified arguments.
+4.  Do not modify arguments if there are enough arguments or the last argument is not a function.

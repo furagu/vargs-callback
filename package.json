@@ -1,5 +1,5 @@
 {
-  "name": "varguments",
+  "name": "vargs-callback",
   "version": "0.2.4",
   "description": "Variable arguments and \"The last is the callback\" convention made without \"var args = somehowParse(arguments)\" surrogate.",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:harscoet/vargs-callback.git"
+    "url": "git://github.com/furagu/vargs-callback.git"
   },
   "keywords": [
     "function",
@@ -19,14 +19,14 @@
     "varg",
     "vargs"
   ],
-  "author": "Egor Balyshev",
+  "author": "Egor Balyshev <egor.balyshev@gmail.com>",
   "contributors": ["Donovan Harscoet <donovan.harscoet@gmail.com>"],
   "license": {
     "type": "MIT",
-    "url": "https://raw.github.com/harscoet/vargs-callback/master/LICENSE"
+    "url": "https://raw.github.com/furagu/vargs-callback/master/LICENSE"
   },
   "bugs": {
-    "url": "https://github.com/harscoet/vargs-callback/issues"
+    "url": "https://github.com/furagu/vargs-callback/issues"
   },
   "devDependencies": {
     "should": "~2.1.0",
