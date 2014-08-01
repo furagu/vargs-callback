@@ -6,7 +6,11 @@ describe('vargs', function () {
         vargs.should.be.type('function')
     })
 
-    it('should make callaback the last argument', function () {
+    it('should have a property `strict` which is a function', function () {
+        should(vargs.strict).be.type('function')
+    })
+
+    it('should make callback the last argument', function () {
         function foo(a, b, c) {
             should.strictEqual(a ? 1 : undefined, a)
             should.strictEqual(b ? 2 : undefined, b)
@@ -38,5 +42,13 @@ describe('vargs', function () {
             arguments.should.eql([1, 2, 3, cb])
             ;[a, b, c].should.eql([1, 2, 3])
         })(1, 2, 3, cb)
+    })
+
+    describe('.strict', function () {
+        it('should throw a TypeError `Callback is required` when the function is called without a callback', function () {
+            var foo = vargs.strict(function foo(a, b, c) {})
+            foo.should.throw(TypeError)
+            foo.should.throw('Callback is required')
+        })
     })
 })

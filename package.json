@@ -1,6 +1,6 @@
 {
   "name": "vargs-callback",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Variable arguments and \"The last is the callback\" convention made without \"var args = somehowParse(arguments)\" surrogate.",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,8 @@
     "varg",
     "vargs"
   ],
-  "author": "Egor Balyshev",
+  "author": "Egor Balyshev <egor.balyshev@gmail.com>",
+  "contributors": ["Donovan Harscoet <donovan.harscoet@gmail.com>"],
   "license": {
     "type": "MIT",
     "url": "https://raw.github.com/furagu/vargs-callback/master/LICENSE"
