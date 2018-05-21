@@ -120,7 +120,7 @@ handleResponse('some', 'args') // TypeError: Callback is required
 Note the __vargs.strict__ call.
 
 With ES6 default parameters:
-vargs-callback uses Function.length to find the correct position for the callback. The length parameter only includes parameters before the first one with a default value so you will need to set the lenght parameter for functions with default arguments for vargs-callback to work.
+vargs-callback uses Function.length to find the correct position for the callback. The length parameter only includes parameters before the first one with a default value so you will need to set the length parameter for functions with default arguments for vargs-callback to work.
 
 ```js
 var vargs = require('vargs-callback')
